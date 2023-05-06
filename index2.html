@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="
+    https://cdn.jsdelivr.net/npm/echarts@5.4.2/dist/echarts.min.js
+    "></script>
+</head>
+<style>
+    #main,
+    #main1,
+    #main2,
+    #main3 {
+        position: absolute;
+        top: 0px;
+    }
+
+    #main1,
+    #main2,
+    #main3 {
+        display: none;
+    }
+
+    button {
+        z-index: 999;
+        position: relative;
+        left: 500px;
+        margin-left: 10px;
+        width: 60px;
+        height: 30px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+    }
+</style>
+
+<body>
+    <button class="today" id="c1">今天</button>
+    <button class='yes' id="c2">昨天</button>
+    <button class="seven" id="c3">近7日</button>
+    <button class="sanshi" id="c4">近30日</button>
+    <div id="main" style="width: 600px;height:400px;"></div>
+    <div id="main1" style="width: 600px;height:400px;"></div>
+    <div id="main2" style="width: 600px;height:400px;"></div>
+    <div id="main3" style="width: 600px;height:400px;"></div>
+</body>
+<script src="https://cdn.staticfile.org/jquery/3.6.0/jquery.min.js"></script>
+
+<script type="module">
+    $(function () {
+        $('#c1').click(c11)
+        $('#c2').click(c2)
+        $('#c3').click(c3)
+        $('#c4').click(c4)
+    })
+    function c11() {
+        $('#c2').css('background', '')
+        $('#c2').css('color', '')
+        $('#c3').css('background', '')
+        $('#c3').css('color', '')
+        $('#c4').css('background', '')
+        $('#c4').css('color', '')
+        $('#main1').css('display', 'none')
+        $('#c1').css('background', '#578EF7')
+        $('#c1').css('color', '#fff')
+        $('#main').css('display', 'block')
+        $('#main2').css('display', 'none')
+        $('#main3').css('display', 'none')
+    }
+    function c2() {
+        $('#c1').css('background', '')
+        $('#c1').css('color', '')
+        $('#c3').css('background', '')
+        $('#c3').css('color', '')
+        $('#c4').css('background', '')
+        $('#c4').css('color', '')
+        $('#main1').css('display', 'block')
+        $('#c2').css('background', '#578EF7')
+        $('#c2').css('color', '#fff')
+        $('#main').css('display', 'none')
+        $('#main2').css('display', 'none')
+        $('#main3').css('display', 'none')
+        console.log(2);
+    }
+    function c4() {
+        $('#c1').css('background', '')
+        $('#c1').css('color', '')
+        $('#c2').css('background', '')
+        $('#c2').css('color', '')
+        $('#c3').css('background', '')
+        $('#c3').css('color', '')
+        $('#c4').css('background', '#578EF7')
+        $('#c4').css('color', '#fff')
+        $('#main1').css('display', 'none')
+        $('#main').css('display', 'none')
+        $('#main2').css('display', 'none')
+        $('#main3').css('display', 'block')
+        console.log(3);
+    }
+    function c3() {
+        $('#c1').css('background', '')
+        $('#c1').css('color', '')
+        $('#c2').css('background', '')
+        $('#c2').css('color', '')
+        $('#c4').css('background', '')
+        $('#c4').css('color', '')
+        $('#c3').css('background', '#578EF7')
+        $('#c3').css('color', '#fff')
+        $('#main1').css('display', 'none')
+        $('#main').css('display', 'none')
+        $('#main2').css('display', 'block')
+        $('#main3').css('display', 'none')
+        console.log(4);
+    }
+
+    var chartDom = document.getElementById('main');
+    var myChart = echarts.init(chartDom);
+    var option;
+
+    const colors = ['#4F90F6', '#7DBD3E'];
+    option = {
+        color: colors,
+        tooltip: {
+            trigger: 'none',
+            axisPointer: {
+
+                type: 'none'
+            }
+        },
+        legend: {},
+        grid: {
+            top: 70,
+            bottom: 20
+        },
+        xAxis: [
+            {
+                type: 'category',
+                axisTick: {
+                    alignWithLabel: true
+                },
+                axisLine: {
+                    onZero: false,
+                    lineStyle: {
+                        color: colors[0]
+                    }
+                },
+                axisPointer: {
+                    type: 'none'
+                    // label: {
+                    //     formatter: function (params) {
+                    //         return (
+                    //             'Precipitation  ' +
+                    //             params.value +
+                    //             (params.seriesData.length ? '：' + params.seriesData[0].data : '')
+                    //         );
+                    //     }
+                    // }
+                },
+                // prettier-ignore
+                data: ['00:00', '02:00', '04:00', '06:00', '08:00', '10:00', '12:00', '14:00', '16:00', '18:00', '20:00', '22:00']
+            },
+            {
+                type: 'category',
+                axisTick: {
+                    show: false,
+                    alignWithLabel: true
+                },
+                axisLine: {
+                    show: false,
+                    onZero: false,
+                    lineStyle: {
+                        color: colors[1]
+                    }
+                },
+                axisLabel: {
+                    show: false, // 不显示坐标轴上的文字
+                },
+                axisPointer: {
+                    label: {
+                        formatter: function (params) {
+                            return (
+                                'Precipitation  ' +
+                                params.value +
+                                (params.seriesData.length ? '：' + params.seriesData[0].data : '')
+                            );
+                        }
+                    }
+                },
+                // prettier-ignore
+                // data: ['2015-1', '2015-2', '2015-3', '2015-4', '2015-5', '2015-6', '2015-7', '2015-8', '2015-9', '2015-10', '2015-11', '2015-12']
+            }
+        ],
+        yAxis: [
+            {
+                // type: 'value',
+
+                axisLabel: {
+                    show: true,
+                    textStyle: {
+                        color: colors[1],
+                    },
+                },
+
+            }
+        ],
+        series: [
+            {
+
+                name: 'pv',
+                type: 'line',
+                xAxisIndex: 1,
+                smooth: true,
+                emphasis: {
+                    focus: 'series'
+                },
+                data: [
+                    2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 90.6, 80.2, 48.7, 18.8, 6.0, 2.3
+                ]
+            },
+            {
+                name: 'uv',
+                type: 'line',
+                smooth: true,
+                emphasis: {
+                    focus: 'series'
+                },
+                data: [
+                    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+                ]
+            }
+        ]
+    };
+
+    option && myChart.setOption(option);
+    //昨天
+    var chartDom = document.getElementById('main1');
+    var myChart = echarts.init(chartDom);
+    var option;
+    option = {
+        color: colors,
+        tooltip: {
+            trigger: 'none',
+            axisPointer: {
+
+                type: 'none'
+            }
+        },
+        legend: {},
+        grid: {
+            top: 70,
+            bottom: 20
+        },
+        xAxis: [
+            {
+                type: 'category',
+                axisTick: {
+                    alignWithLabel: true
+                },
+                axisLine: {
+                    onZero: false,
+                    lineStyle: {
+                        color: colors[0]
+                    }
+                },
+                axisPointer: {
+                    type: 'none'
+                    // label: {
+                    //     formatter: function (params) {
+                    //         return (
+                    //             'Precipitation  ' +
+                    //             params.value +
+                    //             (params.seriesData.length ? '：' + params.seriesData[0].data : '')
+                    //         );
+                    //     }
+                    // }
+                },
+                // prettier-ignore
+                data: ['00:00', '02:00', '04:00', '06:00', '08:00', '10:00', '12:00', '14:00', '16:00', '18:00', '20:00', '22:00']
+            },
+            {
+                type: 'category',
+                axisTick: {
+                    show: false,
+                    alignWithLabel: true
+                },
+                axisLine: {
+                    show: false,
+                    onZero: false,
+                    lineStyle: {
+                        color: colors[1]
+                    }
+                },
+                axisLabel: {
+                    show: false, // 不显示坐标轴上的文字
+                },
+                axisPointer: {
+                    label: {
+                        formatter: function (params) {
+                            return (
+                                'Precipitation  ' +
+                                params.value +
+                                (params.seriesData.length ? '：' + params.seriesData[0].data : '')
+                            );
+                        }
+                    }
+                },
+                // prettier-ignore
+                // data: ['2015-1', '2015-2', '2015-3', '2015-4', '2015-5', '2015-6', '2015-7', '2015-8', '2015-9', '2015-10', '2015-11', '2015-12']
+            }
+        ],
+        yAxis: [
+            {
+                // type: 'value',
+
+                axisLabel: {
+                    show: true,
+                    textStyle: {
+                        color: colors[1],
+                    },
+                },
+
+            }
+        ],
+        series: [
+            {
+
+                name: 'pv',
+                type: 'line',
+                xAxisIndex: 1,
+                smooth: true,
+                emphasis: {
+                    focus: 'series'
+                },
+                data: [
+                    2.6, 5.9, 9.0, 26.4, 28.7, 40.7, 40.6, 30.2, 38.7, 18.8, 6.0, 2.3
+                ]
+            },
+            {
+                name: 'uv',
+                type: 'line',
+                smooth: true,
+                emphasis: {
+                    focus: 'series'
+                },
+                data: [
+                    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+                ]
+            }
+        ]
+    };
+
+    option && myChart.setOption(option);
+    //近7日
+    var chartDom = document.getElementById('main2');
+    var myChart = echarts.init(chartDom);
+    var option;
+    option = {
+        color: colors,
+        tooltip: {
+            trigger: 'none',
+            axisPointer: {
+
+                type: 'none'
+            }
+        },
+        legend: {},
+        grid: {
+            top: 70,
+            bottom: 20
+        },
+        xAxis: [
+            {
+                type: 'category',
+                axisTick: {
+                    alignWithLabel: true
+                },
+                axisLine: {
+                    onZero: false,
+                    lineStyle: {
+                        color: colors[0]
+                    }
+                },
+                axisPointer: {
+                    type: 'none'
+                    // label: {
+                    //     formatter: function (params) {
+                    //         return (
+                    //             'Precipitation  ' +
+                    //             params.value +
+                    //             (params.seriesData.length ? '：' + params.seriesData[0].data : '')
+                    //         );
+                    //     }
+                    // }
+                },
+                // prettier-ignore
+                data: ['00:00', '02:00', '04:00', '06:00', '08:00', '10:00', '12:00', '14:00', '16:00', '18:00', '20:00', '22:00']
+            },
+            {
+                type: 'category',
+                axisTick: {
+                    show: false,
+                    alignWithLabel: true
+                },
+                axisLine: {
+                    show: false,
+                    onZero: false,
+                    lineStyle: {
+                        color: colors[1]
+                    }
+                },
+                axisLabel: {
+                    show: false, // 不显示坐标轴上的文字
+                },
+                axisPointer: {
+                    label: {
+                        formatter: function (params) {
+                            return (
+                                'Precipitation  ' +
+                                params.value +
+                                (params.seriesData.length ? '：' + params.seriesData[0].data : '')
+                            );
+                        }
+                    }
+                },
+                // prettier-ignore
+                // data: ['2015-1', '2015-2', '2015-3', '2015-4', '2015-5', '2015-6', '2015-7', '2015-8', '2015-9', '2015-10', '2015-11', '2015-12']
+            }
+        ],
+        yAxis: [
+            {
+                // type: 'value',
+
+                axisLabel: {
+                    show: true,
+                    textStyle: {
+                        color: colors[1],
+                    },
+                },
+
+            }
+        ],
+        series: [
+            {
+
+                name: 'pv',
+                type: 'line',
+                xAxisIndex: 1,
+                smooth: true,
+                emphasis: {
+                    focus: 'series'
+                },
+                data: [
+                    92.6, 55.9, 29.0, 226.4, 328.7, 170.7, 190.6, 280.2, 348.7, 218.8, 612.0, 602.3
+                ]
+            },
+            {
+                name: 'uv',
+                type: 'line',
+                smooth: true,
+                emphasis: {
+                    focus: 'series'
+                },
+                data: [
+                    10, 11, 13, 15, 20, 19, 30, 30, 32, 43, 45, 45
+                ]
+            }
+        ]
+    };
+
+    option && myChart.setOption(option);
+    //近30日
+    var chartDom = document.getElementById('main3');
+    var myChart = echarts.init(chartDom);
+    var option;
+    option = {
+        color: colors,
+        tooltip: {
+            trigger: 'none',
+            axisPointer: {
+
+                type: 'none'
+            }
+        },
+        legend: {},
+        grid: {
+            top: 70,
+            bottom: 20
+        },
+        xAxis: [
+            {
+                type: 'category',
+                axisTick: {
+                    alignWithLabel: true
+                },
+                axisLine: {
+                    onZero: false,
+                    lineStyle: {
+                        color: colors[0]
+                    }
+                },
+                axisPointer: {
+                    type: 'none'
+                    // label: {
+                    //     formatter: function (params) {
+                    //         return (
+                    //             'Precipitation  ' +
+                    //             params.value +
+                    //             (params.seriesData.length ? '：' + params.seriesData[0].data : '')
+                    //         );
+                    //     }
+                    // }
+                },
+                // prettier-ignore
+                data: ['00:00', '02:00', '04:00', '06:00', '08:00', '10:00', '12:00', '14:00', '16:00', '18:00', '20:00', '22:00']
+            },
+            {
+                type: 'category',
+                axisTick: {
+                    show: false,
+                    alignWithLabel: true
+                },
+                axisLine: {
+                    show: false,
+                    onZero: false,
+                    lineStyle: {
+                        color: colors[1]
+                    }
+                },
+                axisLabel: {
+                    show: false, // 不显示坐标轴上的文字
+                },
+                axisPointer: {
+                    label: {
+                        formatter: function (params) {
+                            return (
+                                'Precipitation  ' +
+                                params.value +
+                                (params.seriesData.length ? '：' + params.seriesData[0].data : '')
+                            );
+                        }
+                    }
+                },
+                // prettier-ignore
+                // data: ['2015-1', '2015-2', '2015-3', '2015-4', '2015-5', '2015-6', '2015-7', '2015-8', '2015-9', '2015-10', '2015-11', '2015-12']
+            }
+        ],
+        yAxis: [
+            {
+
+                // type: 'value',
+                data: ['0', '1.0k', '2.0k', '3.0k', '4.0k'],
+                axisLabel: {
+                    show: true,
+                    textStyle: {
+                        color: colors[1],
+                    },
+                },
+
+            }
+        ],
+        series: [
+            {
+
+                name: 'pv',
+                type: 'line',
+                xAxisIndex: 1,
+                smooth: true,
+                emphasis: {
+                    focus: 'series'
+                },
+                data: [
+                    0.4, 0.5, 0.6, 0.7, 1.1, 1.8, 1.9, 3.2, 2.3, 1.1, 2.3, 0, 3
+                ]
+            },
+            {
+                name: 'uv',
+                type: 'line',
+                smooth: true,
+                emphasis: {
+                    focus: 'series'
+                },
+                data: [
+                    0, 0, 0, 0, 0, 0.4, 0.4, 0.5, 0.6, 0.2, 0, 0, 0.3
+                ]
+            }
+        ]
+    };
+
+    option && myChart.setOption(option);
+</script>
+
+</html>
